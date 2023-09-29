@@ -26,6 +26,8 @@ public class PlayerLocomotion : MonoBehaviour
         moveDirection.Normalize();
         moveDirection.y = 0;
         moveDirection = moveDirection * PlayerManager.Instance.moveSpeed;
+        Vector3 movementVelocity = moveDirection;
+        PlayerManager.Instance.rigidBody.velocity = movementVelocity;
     }
 
     private void HandlesRotation()

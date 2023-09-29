@@ -39,6 +39,11 @@ public class PlayerManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        inputManager.HandleAllInput();
+    }
+
+    private void FixedUpdate()
+    {
+        playerLocomotion.HandlesAllMovement();
     }
 }
