@@ -11,6 +11,8 @@ public class InputManager : MonoBehaviour
     public float verticalInput;
     public float horizontalInput;
 
+    public float moveAmount;
+
     public void OnEnable()
     {
         if (playerControl == null)
@@ -37,5 +39,8 @@ public class InputManager : MonoBehaviour
     {
         verticalInput  = movementInput.y;
         horizontalInput = movementInput.x;
+
+        moveAmount = Mathf.Clamp01(Mathf.Abs(verticalInput) + Mathf.Abs(horizontalInput));
+        PlayerManager.Instance.animatorManager.UpdateAnimatorValues(0, moveAmount);
     }
 }

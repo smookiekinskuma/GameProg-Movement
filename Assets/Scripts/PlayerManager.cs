@@ -5,13 +5,18 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
     public static PlayerManager Instance { get; private set; }
-    public GameObject player;
+    [Header("Scripts")]
+    public AnimatorManager animatorManager;
     public PlayerLocomotion playerLocomotion;
     public InputManager inputManager;
 
+    [Header("Components")]
     public Rigidbody rigidBody;
+    public GameObject player;
+    public Animator animator;
 
     //Player Stats
+    [Header("Stats")]
     public float moveSpeed;
     public float rotSpeed;
 
@@ -34,6 +39,8 @@ public class PlayerManager : MonoBehaviour
         inputManager = player.GetComponent<InputManager>();
         playerLocomotion = player.GetComponent<PlayerLocomotion>();
         rigidBody = player.GetComponent<Rigidbody>();
+        animatorManager = player.GetComponent<AnimatorManager>();
+        animator = player.GetComponentInChildren<Animator>();
     }
 
     // Update is called once per frame
