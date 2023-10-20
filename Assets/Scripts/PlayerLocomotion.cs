@@ -30,19 +30,25 @@ public class PlayerLocomotion : MonoBehaviour
         {
             moveDirection = moveDirection * PlayerManager.Instance.sprintSpeed;
         }
-        else
-        {
-            moveDirection = moveDirection * PlayerManager.Instance.moveSpeed;
-        }
-
-        if(PlayerManager.Instance.isWalking == true)
+        else if (PlayerManager.Instance.isWalking == true)
         {
             moveDirection = moveDirection * PlayerManager.Instance.walkingSpeed;
+            //moveDirection = moveDirection * PlayerManager.Instance.moveSpeed;
         }
         else
         {
             moveDirection = moveDirection * PlayerManager.Instance.moveSpeed;
         }
+        
+
+        //if(PlayerManager.Instance.isWalking == true)
+        //{
+        //    moveDirection = moveDirection * PlayerManager.Instance.walkingSpeed;
+        //}
+        //else
+        //{
+        //    moveDirection = moveDirection * PlayerManager.Instance.moveSpeed;
+        //}
 
         moveDirection = moveDirection * PlayerManager.Instance.moveSpeed;
         Vector3 movementVelocity = moveDirection;
