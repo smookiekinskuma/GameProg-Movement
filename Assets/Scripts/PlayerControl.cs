@@ -158,6 +158,105 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 }
             ]
+        },
+        {
+            ""name"": ""PlayerAction"",
+            ""id"": ""47392fe1-21a8-480c-b1f2-e505fd179d5f"",
+            ""actions"": [
+                {
+                    ""name"": ""Sprint"",
+                    ""type"": ""Button"",
+                    ""id"": ""6829070c-e3f1-481f-af3e-3d88fa08c329"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""a9fb115e-3fdd-42e5-9126-c4ddbdc46b55"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Walk"",
+                    ""type"": ""Button"",
+                    ""id"": ""891819de-17f8-414f-826a-c9f199c2252e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Dodge"",
+                    ""type"": ""Button"",
+                    ""id"": ""828951d7-aeaf-4de9-9bd3-63e76913237b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""f3dac331-acde-499a-8de4-79997c830c8d"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Sprint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""52025f39-fa51-4246-9ff0-81f21ad44b16"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Sprint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ecaf6202-7303-4ecd-8251-f489fe7d291a"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0008299c-ea63-460f-a5fb-e4e7d6cc154e"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Walk"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""808f1096-d5b7-46e4-9bbb-441c422404e1"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dodge"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -166,6 +265,12 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
         m_PlayerControls = asset.FindActionMap("PlayerControls", throwIfNotFound: true);
         m_PlayerControls_WASD = m_PlayerControls.FindAction("WASD", throwIfNotFound: true);
         m_PlayerControls_GamePad = m_PlayerControls.FindAction("GamePad", throwIfNotFound: true);
+        // PlayerAction
+        m_PlayerAction = asset.FindActionMap("PlayerAction", throwIfNotFound: true);
+        m_PlayerAction_Sprint = m_PlayerAction.FindAction("Sprint", throwIfNotFound: true);
+        m_PlayerAction_Jump = m_PlayerAction.FindAction("Jump", throwIfNotFound: true);
+        m_PlayerAction_Walk = m_PlayerAction.FindAction("Walk", throwIfNotFound: true);
+        m_PlayerAction_Dodge = m_PlayerAction.FindAction("Dodge", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -277,9 +382,86 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
         }
     }
     public PlayerControlsActions @PlayerControls => new PlayerControlsActions(this);
+
+    // PlayerAction
+    private readonly InputActionMap m_PlayerAction;
+    private List<IPlayerActionActions> m_PlayerActionActionsCallbackInterfaces = new List<IPlayerActionActions>();
+    private readonly InputAction m_PlayerAction_Sprint;
+    private readonly InputAction m_PlayerAction_Jump;
+    private readonly InputAction m_PlayerAction_Walk;
+    private readonly InputAction m_PlayerAction_Dodge;
+    public struct PlayerActionActions
+    {
+        private @PlayerControl m_Wrapper;
+        public PlayerActionActions(@PlayerControl wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Sprint => m_Wrapper.m_PlayerAction_Sprint;
+        public InputAction @Jump => m_Wrapper.m_PlayerAction_Jump;
+        public InputAction @Walk => m_Wrapper.m_PlayerAction_Walk;
+        public InputAction @Dodge => m_Wrapper.m_PlayerAction_Dodge;
+        public InputActionMap Get() { return m_Wrapper.m_PlayerAction; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(PlayerActionActions set) { return set.Get(); }
+        public void AddCallbacks(IPlayerActionActions instance)
+        {
+            if (instance == null || m_Wrapper.m_PlayerActionActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_PlayerActionActionsCallbackInterfaces.Add(instance);
+            @Sprint.started += instance.OnSprint;
+            @Sprint.performed += instance.OnSprint;
+            @Sprint.canceled += instance.OnSprint;
+            @Jump.started += instance.OnJump;
+            @Jump.performed += instance.OnJump;
+            @Jump.canceled += instance.OnJump;
+            @Walk.started += instance.OnWalk;
+            @Walk.performed += instance.OnWalk;
+            @Walk.canceled += instance.OnWalk;
+            @Dodge.started += instance.OnDodge;
+            @Dodge.performed += instance.OnDodge;
+            @Dodge.canceled += instance.OnDodge;
+        }
+
+        private void UnregisterCallbacks(IPlayerActionActions instance)
+        {
+            @Sprint.started -= instance.OnSprint;
+            @Sprint.performed -= instance.OnSprint;
+            @Sprint.canceled -= instance.OnSprint;
+            @Jump.started -= instance.OnJump;
+            @Jump.performed -= instance.OnJump;
+            @Jump.canceled -= instance.OnJump;
+            @Walk.started -= instance.OnWalk;
+            @Walk.performed -= instance.OnWalk;
+            @Walk.canceled -= instance.OnWalk;
+            @Dodge.started -= instance.OnDodge;
+            @Dodge.performed -= instance.OnDodge;
+            @Dodge.canceled -= instance.OnDodge;
+        }
+
+        public void RemoveCallbacks(IPlayerActionActions instance)
+        {
+            if (m_Wrapper.m_PlayerActionActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IPlayerActionActions instance)
+        {
+            foreach (var item in m_Wrapper.m_PlayerActionActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_PlayerActionActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public PlayerActionActions @PlayerAction => new PlayerActionActions(this);
     public interface IPlayerControlsActions
     {
         void OnWASD(InputAction.CallbackContext context);
         void OnGamePad(InputAction.CallbackContext context);
+    }
+    public interface IPlayerActionActions
+    {
+        void OnSprint(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
+        void OnWalk(InputAction.CallbackContext context);
+        void OnDodge(InputAction.CallbackContext context);
     }
 }

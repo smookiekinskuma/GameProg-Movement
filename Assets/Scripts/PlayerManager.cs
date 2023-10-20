@@ -20,6 +20,12 @@ public class PlayerManager : MonoBehaviour
     public float moveSpeed;
     public float rotSpeed;
 
+    public float walkingSpeed;
+    public float sprintSpeed;
+
+    [Header("Actions")]
+    public bool isSprinting;
+
 
     // Start is called before the first frame update
 

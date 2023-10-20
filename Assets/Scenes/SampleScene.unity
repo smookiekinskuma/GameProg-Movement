@@ -304,6 +304,8 @@ MonoBehaviour:
   movementInput: {x: 0, y: 0}
   verticalInput: 0
   horizontalInput: 0
+  sprint_Input: 0
+  walk_Input: 0
   moveAmount: 0
 --- !u!4 &91573636
 Transform:
@@ -550,6 +552,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 04e73f7e80c449d458737e9d8c443869, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 152084320c91f2242b9ba6138ffaee4f, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -713,5 +719,8 @@ MonoBehaviour:
   rigidBody: {fileID: 0}
   player: {fileID: 91573633}
   animator: {fileID: 0}
-  moveSpeed: 10
+  moveSpeed: 2
   rotSpeed: 0.25
+  walkingSpeed: 1
+  sprintSpeed: 3
+  isSprinting: 0
