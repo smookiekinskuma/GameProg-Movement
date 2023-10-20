@@ -27,6 +27,9 @@ public class InputManager : MonoBehaviour
 
             playerControl.PlayerAction.Sprint.performed += i => sprint_Input = true;
             playerControl.PlayerAction.Sprint.canceled += i => sprint_Input = false;
+
+            playerControl.PlayerAction.Walk.performed += i => walk_Input = true;
+            playerControl.PlayerAction.Walk.performed += i => walk_Input = false;
         }
         playerControl.Enable();
     }
@@ -40,6 +43,7 @@ public class InputManager : MonoBehaviour
     {
         HandleMovementInput();
         HandleSprintingInput();
+        HandleWalkingInput();
     }
 
     //Movement
@@ -50,6 +54,7 @@ public class InputManager : MonoBehaviour
 
         moveAmount = Mathf.Clamp01(Mathf.Abs(verticalInput) + Mathf.Abs(horizontalInput));
         PlayerManager.Instance.animatorManager.UpdateAnimatorValues(0, moveAmount, PlayerManager.Instance.isSprinting);
+        PlayerManager.Instance.animatorManager.UpdateAnimatorValues(0, moveAmount, PlayerManager.Instance.isWalking);
     }
 
     //Sprint
@@ -62,6 +67,19 @@ public class InputManager : MonoBehaviour
         else
         {
             PlayerManager.Instance.isSprinting = false;
+        }
+    }
+
+    //Walking
+    private void HandleWalkingInput()
+    {
+        if(walk_Input && moveAmount < 0.5)
+        {
+            PlayerManager.Instance.isWalking = true;
+        }
+        else
+        {
+            PlayerManager.Instance.isWalking = false;
         }
     }
 }

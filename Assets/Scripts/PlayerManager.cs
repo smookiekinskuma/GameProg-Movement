@@ -25,6 +25,7 @@ public class PlayerManager : MonoBehaviour
 
     [Header("Actions")]
     public bool isSprinting;
+    public bool isWalking;
 
 
     // Start is called before the first frame update

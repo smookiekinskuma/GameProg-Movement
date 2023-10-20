@@ -35,6 +35,15 @@ public class PlayerLocomotion : MonoBehaviour
             moveDirection = moveDirection * PlayerManager.Instance.moveSpeed;
         }
 
+        if(PlayerManager.Instance.isWalking == true)
+        {
+            moveDirection = moveDirection * PlayerManager.Instance.walkingSpeed;
+        }
+        else
+        {
+            moveDirection = moveDirection * PlayerManager.Instance.moveSpeed;
+        }
+
         moveDirection = moveDirection * PlayerManager.Instance.moveSpeed;
         Vector3 movementVelocity = moveDirection;
         PlayerManager.Instance.rigidBody.velocity = movementVelocity;
