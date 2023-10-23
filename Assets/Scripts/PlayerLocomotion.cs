@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PlayerLocomotion : MonoBehaviour
 {
@@ -26,29 +27,18 @@ public class PlayerLocomotion : MonoBehaviour
         moveDirection.Normalize();
         moveDirection.y = 0;
 
-        if(PlayerManager.Instance.isSprinting == true)
+        if (PlayerManager.Instance.isSprinting == true)
         {
             moveDirection = moveDirection * PlayerManager.Instance.sprintSpeed;
         }
         else if (PlayerManager.Instance.isWalking == true)
         {
             moveDirection = moveDirection * PlayerManager.Instance.walkingSpeed;
-            //moveDirection = moveDirection * PlayerManager.Instance.moveSpeed;
         }
         else
         {
             moveDirection = moveDirection * PlayerManager.Instance.moveSpeed;
         }
-        
-
-        //if(PlayerManager.Instance.isWalking == true)
-        //{
-        //    moveDirection = moveDirection * PlayerManager.Instance.walkingSpeed;
-        //}
-        //else
-        //{
-        //    moveDirection = moveDirection * PlayerManager.Instance.moveSpeed;
-        //}
 
         moveDirection = moveDirection * PlayerManager.Instance.moveSpeed;
         Vector3 movementVelocity = moveDirection;

@@ -12,11 +12,13 @@ public class AnimatorManager : MonoBehaviour
         vertical = Animator.StringToHash("Vertical");
 
     }
-    
-    public void UpdateAnimatorValues(float horizontalMovement, float verticalMovement, bool isSprinting)
+
+    public void UpdateAnimatorValues(float horizontalMovement, float verticalMovement, bool isSprinting, bool isWalking)
     {
-        if(isSprinting) { horizontalMovement = 2; }
+        if (isSprinting) { horizontalMovement = 2; }
+        if (isWalking) { verticalMovement = 0.5f; }
         PlayerManager.Instance.animator.SetFloat(horizontal, horizontalMovement, 0.1f, Time.deltaTime);
         PlayerManager.Instance.animator.SetFloat(vertical, verticalMovement, 0.1f, Time.deltaTime);
     }
+
 }
